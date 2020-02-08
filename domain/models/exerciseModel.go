@@ -6,10 +6,10 @@ import (
 
 // Exercise struct
 type Exercise struct {
-	ExerciseID  int
-	Name        string
-	Description string
-	MuscleGroup string
+	ExerciseID  int    `json:"exerciseID"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	MuscleGroup string `json:"muscleGroup"`
 }
 
 // CreateExercise constructor

@@ -1,7 +1,11 @@
 package repos
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
+	"io/ioutil"
+	"os"
 
 	"github.com/davidrbourke/Workout/domain/models"
 )
@@ -14,7 +18,7 @@ type ExerciseRepo interface {
 }
 
 type exerciseRepository struct {
-	exercises []*models.Exercise
+	Exercises []*models.Exercise `json:"exercises"`
 }
 
 // CreateExerciseRepo return ref to repo
@@ -23,31 +27,26 @@ func CreateExerciseRepo() ExerciseRepo {
 }
 
 func (r *exerciseRepository) IntialiseRepo() {
-	exercise1 := models.CreateExercise(
-		1,
-		"Deadlift",
-		"Steps, 1,2,3",
-		"Legs,Back",
-	)
+	jsonFile, err := os.Open("domain/jsonData/exercises.json")
+	if err != nil {
+		fmt.Println("Error reading json file")
+		return
+	}
 
-	exercise2 := models.CreateExercise(
-		2,
-		"Squat",
-		"Steps, 1,2,3",
-		"Legs,Back",
-	)
+	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	r.exercises = append(r.exercises, exercise1)
-	r.exercises = append(r.exercises, exercise2)
+	json.Unmarshal(byteValue, &r)
+
+	defer jsonFile.Close()
 }
 
 func (r *exerciseRepository) FindAll() ([]*models.Exercise, error) {
 
-	return r.exercises, nil
+	return r.Exercises, nil
 }
 
 func (r *exerciseRepository) Get(exerciseID int) (*models.Exercise, error) {
-	for _, e := range r.exercises {
+	for _, e := range r.Exercises {
 		if e.ExerciseID == exerciseID {
 			return e, nil
 		}

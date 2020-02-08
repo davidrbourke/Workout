@@ -1,0 +1,16 @@
+{
+  "exercises": [
+    {
+      "exerciseID": 1,
+      "name": "Deadlift",
+      "description": "",
+      "muscleGroup": "Legs, Back"
+    },
+    {
+      "exerciseID": 2,
+      "name": "Squat",
+      "description": "",
+      "muscleGroup": "Legs"
+    }
+  ]
+}
